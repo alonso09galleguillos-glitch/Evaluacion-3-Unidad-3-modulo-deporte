@@ -15,7 +15,7 @@ function UsersPage() {
   const [showModal, setShowModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
   
-  const brandPurple = "#4a3f5a"; // Color púrpura
+  const brandPurple = "#4a3f5a";
 
   const loadUsers = async () => {
     try {
@@ -49,22 +49,67 @@ function UsersPage() {
   }
 
   const handleSave = async (formData) => {
+    // --- NUEVAS VALIDACIONES FRONTEND (Pre-vuelo) ---
+    // 1. Validar campos vacíos
+    if (!formData.full_name || !formData.email || !formData.role) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "El nombre, el correo y el rol son obligatorios.",
+        confirmButtonColor: brandPurple
+      })
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Correo inválido",
+        text: "Asegúrate de escribir un correo electrónico válido.",
+        confirmButtonColor: brandPurple
+      })
+    }
+
+    if (!selectedUser && (!formData.password || formData.password.length < 8)) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Contraseña inválida",
+        text: "Para un usuario nuevo, la contraseña debe tener al menos 8 caracteres.",
+        confirmButtonColor: brandPurple
+      })
+    }
+    // ------------------------------------------------
+
     try {
       if (selectedUser) {
-        // 👇 AQUÍ ESTÁ EL RASTREADOR DEL BUG 👇
         console.log("🛠️ DEBUG - ID SELECCIONADO:", selectedUser.id);
         console.log("🛠️ DEBUG - DATOS A ENVIAR:", formData);
 
         await updateUser(selectedUser.id, formData)
-        Swal.fire("Actualizado", "Usuario actualizado correctamente", "success")
+        Swal.fire({
+          title: "Actualizado", 
+          text: "El usuario fue modificado correctamente.", 
+          icon: "success",
+          confirmButtonColor: brandPurple
+        })
       } else {
         await createUser(formData)
-        Swal.fire("Creado", "Usuario creado correctamente", "success")
+        Swal.fire({
+          title: "Creado", 
+          text: "El nuevo usuario fue registrado con éxito.", 
+          icon: "success",
+          confirmButtonColor: brandPurple
+        })
       }
       closeModal()
       loadUsers()
     } catch (error) {
-      Swal.fire("Error", error.message, "error")
+      Swal.fire({
+        icon: "error",
+        title: "No se pudo guardar",
+        text: error.message || "Hubo un problema. Verifica que el correo no esté ya en uso.",
+        confirmButtonColor: brandPurple
+      })
     }
   }
 
@@ -93,7 +138,6 @@ function UsersPage() {
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
-        {/* Recuadro blanco con bordes negros */}
         <div style={{ 
           backgroundColor: "white", 
           border: "3px solid black", 

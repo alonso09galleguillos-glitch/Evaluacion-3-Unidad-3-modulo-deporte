@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom"
 import { Navbar, Container, Nav, Button, Row, Col, Card, Badge } from "react-bootstrap"
-import logo from "../assets/logo.png" // <-- AQUÍ IMPORTAMOS EL LOGO
+import logo from "../assets/logo.png"
 
 export default function Home() {
 const brandPurple = "#4a3f5a";
 
 return (
     <div style={{ overflowX: "hidden" }}>
-      {/* Navbar con el Logo real */}
+
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
         <Container>
         <Navbar.Brand>
             <img
             src={logo}
             alt="Logo SportClub"
-              height="40" // <-- Ajusta este número si el logo se ve muy grande o muy chico
+            height="40" 
             className="d-inline-block align-top"
             />
         </Navbar.Brand>
@@ -32,9 +32,7 @@ return (
         </Container>
     </Navbar>
 
-      {/* Contenido Principal dividido en dos columnas */}
     <Row className="m-0" style={{ minHeight: "calc(100vh - 56px)" }}>
-        {/* Mitad Izquierda (Morado oscuro) */}
         <Col md={6} className="d-flex flex-column justify-content-center p-5" style={{ backgroundColor: brandPurple, color: "white" }}>
         <div style={{ maxWidth: "500px", margin: "0 auto" }}>
             <Badge bg="warning" text="dark" className="mb-4 px-3 py-2 fs-6 rounded-pill">

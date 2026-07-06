@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Container, Card, Button, Table, Badge, Form, Modal, Spinner } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { getSports, createSport, updateSport, deleteSport, changeSportStatus } from "../../services/sportService";
+import SportFormModal from "../../components/sports/SportFormModal.jsx";
 
 export default function SportsPage() {
 const [sports, setSports] = useState([]);
 const [loading, setLoading] = useState(true);
 
-  // Estados para el Modal
+
 const [showModal, setShowModal] = useState(false);
 const [isEditing, setIsEditing] = useState(false);
 const [currentId, setCurrentId] = useState(null);
@@ -20,7 +21,6 @@ const [formData, setFormData] = useState({
 
 const brandPurple = "#4a3f5a";
 
-  // Formateador de Fecha Exacto (Ej: 15 de Julio de 2026)
 const formatCustomDate = (isoString) => {
     if (!isoString) return "";
     const date = new Date(isoString);
@@ -78,7 +78,6 @@ const loadSports = async () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validaciones obligatorias
     if (!formData.name || !formData.objective || !formData.duration) {
       return Swal.fire("Atención", "Todos los campos de texto son obligatorios.", "warning");
     }
@@ -113,7 +112,7 @@ const loadSports = async () => {
       try {
         await deleteSport(sport.id);
         Swal.fire("Eliminado", "Deporte eliminado correctamente", "success");
-        loadSports(); // Actualización automática
+        loadSports(); 
       } catch (error) {
         Swal.fire("Error", error.message, "error");
       }
@@ -124,7 +123,7 @@ const loadSports = async () => {
     const newStatus = !sport.status;
     try {
       await changeSportStatus(sport.id, newStatus);
-      loadSports(); // Reflejar en pantalla de inmediato
+      loadSports();
     } catch (error) {
       Swal.fire("Error", "No se pudo cambiar el estado", "error");
     }
@@ -174,7 +173,6 @@ const loadSports = async () => {
                         <td>{sport.duration} min</td>
                         <td>{formatCustomDate(sport.created_at)}</td>
                         <td>
-                          {/* Switch de React-Bootstrap exigido */}
                           <Form.Check 
                             type="switch"
                             id={`switch-${sport.id}`}
@@ -208,7 +206,6 @@ const loadSports = async () => {
         </div>
       </Container>
 
-      {/* Modal de React-Bootstrap para Crear/Editar */}
       <Modal show={showModal} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold text-danger">

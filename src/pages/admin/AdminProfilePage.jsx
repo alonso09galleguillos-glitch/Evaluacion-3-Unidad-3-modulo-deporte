@@ -7,17 +7,14 @@ import { updateUser } from "../../services/userService";
 export default function AdminProfilePage() {
   const brandPurple = "#4a3f5a";
   
-  // 1. Obtenemos el usuario logueado actualmente
   const currentUser = getUser() || {};
 
-  // 2. Estado para manejar el formulario (cargamos sus datos actuales)
   const [formData, setFormData] = useState({
     full_name: currentUser.full_name || "",
     email: currentUser.email || "",
-    password: "", // La dejamos en blanco por seguridad
+    password: "",
   });
 
-  // 3. Función para actualizar el estado cuando el usuario escribe
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,40 +22,31 @@ export default function AdminProfilePage() {
     });
   };
 
-  // 4. Función para enviar la petición PUT al backend
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      // Preparamos los datos a enviar
       const dataToSend = {
         full_name: formData.full_name,
         email: formData.email,
       };
       
-      // Solo enviamos la contraseña si el usuario escribió una nueva
       if (formData.password.trim() !== "") {
         dataToSend.password = formData.password;
       }
 
-      // Llamamos a tu servicio PUT (/api/users/:id)
       await updateUser(currentUser.id, dataToSend);
 
-      // --- AQUÍ ESTÁ LA MAGIA PARA ACTUALIZAR EL FRONTEND ---
-      // Obtenemos los datos actuales guardados en la memoria del navegador
       const storedUserString = localStorage.getItem("user");
       
       if (storedUserString) {
         const storedUser = JSON.parse(storedUserString);
-        // Modificamos solo el nombre y correo con lo que el usuario escribió
         storedUser.full_name = formData.full_name;
         storedUser.email = formData.email;
-        // Volvemos a guardar la información actualizada en el navegador
         localStorage.setItem("user", JSON.stringify(storedUser));
       }
       // -------------------------------------------------------
 
       Swal.fire("Éxito", "Perfil actualizado correctamente", "success").then(() => {
-        // Recargamos la página para que el Navbar lea el nuevo nombre del localStorage
         window.location.reload(); 
       });
 
@@ -66,7 +54,6 @@ export default function AdminProfilePage() {
       Swal.fire("Error", error.response?.data?.message || error.message || "Error al actualizar", "error");
     }
   };
-
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
