@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { Alert, Button, Card, Container, Form, Spinner, Navbar, Nav } from "react-bootstrap"
+import Swal from "sweetalert2"
 import { loginUser, saveSession } from "../services/authService"
-import logo from "../assets/logo.png" // <-- Importamos la imagen igual que en el Home
+import logo from "../assets/logo.png"
 
 function Login() {
 const navigate = useNavigate()
@@ -10,13 +11,32 @@ const [email, setEmail] = useState("")
 const [password, setPassword] = useState("")
 const [error, setError] = useState("")
 const [loading, setLoading] = useState(false)
-
-  // Color de fondo principal
 const brandPurple = "#4a3f5a"
 
 const handleSubmit = async (event) => {
     event.preventDefault()
     setError("")
+
+    if (!email || !password) {
+    return Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, ingresa tu correo y contraseña para continuar.",
+        confirmButtonColor: brandPurple
+    })
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+    return Swal.fire({
+        icon: "warning",
+        title: "Correo inválido",
+        text: "Asegúrate de escribir un correo electrónico válido (ejemplo: usuario@correo.com).",
+        confirmButtonColor: brandPurple
+    })
+    }
+    // ------------------------------------
+
     setLoading(true)
 
     try {
@@ -31,6 +51,13 @@ const handleSubmit = async (event) => {
         navigate("/user/dashboard")
     }
     } catch (error) {
+
+    Swal.fire({
+        icon: "error",
+        title: "Error de autenticación",
+        text: error.message || "Credenciales incorrectas. Verifica tu correo y contraseña.",
+        confirmButtonColor: brandPurple
+    })
     setError(error.message)
     } finally {
     setLoading(false)
@@ -44,7 +71,6 @@ return (
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
         <Container>
         <Navbar.Brand>
-            {/* Logo en la barra superior */}
             <img
             src={logo}
             alt="Logo SportClub"
@@ -60,12 +86,10 @@ return (
         </Container>
     </Navbar>
 
-      {/* Contenedor central para la tarjeta de Login */}
     <Container className="d-flex justify-content-center align-items-center flex-grow-1 py-5">
         <Card style={{ width: "26rem", borderRadius: "10px", border: "2px solid #343a40" }} className="shadow-lg">
         <Card.Body className="p-4">
             
-            {/* Logo centrado dentro de la tarjeta */}
             <div className="text-center mb-3">
             <img 
                 src={logo} 
@@ -132,7 +156,6 @@ return (
         </Card.Body>
         </Card>
     </Container>
-
     </div>
 )
 }

@@ -18,12 +18,13 @@ function AdminLayout() {
           <Nav className="me-auto">
             <Link className="nav-link" to="/admin/dashboard">Dashboard</Link>
             <Link className="nav-link" to="/admin/users">Usuarios</Link>
-
             <Link className="nav-link" to="/admin/deportes">Deportes</Link>
-            
+            <Link className="nav-link" to="/admin/rooms">Salas</Link>
+            <Link className="nav-link" to="/admin/sport-rooms">Asignaciones</Link>
             <Link className="nav-link" to="/admin/calendario">Calendario</Link>
             <Link className="nav-link" to="/admin/perfil">Mi Perfil</Link>
           </Nav>
+          
           
           <Nav className="align-items-center">
             <span className="text-white me-3">Hola, {user?.full_name}</span>
@@ -34,7 +35,6 @@ function AdminLayout() {
         </Container>
       </Navbar>
       
-      {/* Outlet libre para que las vistas ocupen el fondo púrpura */}
       <Outlet />
     </>
   )

@@ -11,7 +11,7 @@ const initialForm = {
 function UserFormModal({ show, handleClose, handleSave, selectedUser }) {
   const [formData, setFormData] = useState(initialForm)
 
-  // Cuando se abre el modal, revisamos si es para crear o editar
+
   useEffect(() => {
     if (selectedUser) {
       setFormData({
@@ -68,7 +68,6 @@ function UserFormModal({ show, handleClose, handleSave, selectedUser }) {
             />
           </Form.Group>
           
-          {/* Si estamos editando, no mostramos el campo de contraseña */}
           {!selectedUser && (
             <Form.Group className="mb-3">
               <Form.Label>Contraseña</Form.Label>

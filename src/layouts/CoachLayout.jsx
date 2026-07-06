@@ -14,7 +14,6 @@ function CoachLayout() {
           <Navbar.Brand><img src={logo} alt="Logo" height="40" /></Navbar.Brand>
           <Nav className="me-auto">
             <Link className="nav-link" to="/coach/dashboard">Dashboard Coach</Link>
-            {/* Nuevos enlaces agregados aquí */}
             <Link className="nav-link" to="/coach/calendario">Calendario</Link>
             <Link className="nav-link" to="/coach/perfil">Mi Perfil</Link>
           </Nav>
@@ -27,7 +26,6 @@ function CoachLayout() {
         </Container>
       </Navbar>
       
-      {/* Eliminamos el Container con mt-4 para dejar que el Dashboard ocupe el fondo púrpura */}
       <Outlet />
     </>
   )

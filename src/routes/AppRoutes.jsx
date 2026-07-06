@@ -9,11 +9,15 @@ import Unauthorized from "../pages/Unauthorized"
 
 // --- Importaciones de Dashboards ---
 import UserDashboard from "../pages/user/UserDashboard"
+// 👇 AQUÍ ESTÁ LA IMPORTACIÓN DE RESERVAS 👇
+import MyReservationsPage from "../pages/user/MyReservationsPage" 
+
 import CoachDashboard from "../pages/coach/CoachDashboard"
 import AdminDashboard from "../pages/admin/AdminDashboard"
 import UsersPage from "../pages/admin/UsersPage"
 import SportsPage from "../pages/admin/SportsPage" 
-
+import RoomsPage from "../pages/admin/RoomsPage" 
+import SportRoomsPage from "../pages/admin/SportRoomsPage"
 
 import AdminCalendarPage from "../pages/admin/AdminCalendarPage"
 import AdminProfilePage from "../pages/admin/AdminProfilePage"
@@ -21,7 +25,6 @@ import CoachCalendarPage from "../pages/coach/CoachCalendarPage"
 import CoachProfilePage from "../pages/coach/CoachProfilePage"
 import UserCalendarPage from "../pages/user/UserCalendarPage"
 import UserProfilePage from "../pages/user/UserProfilePage"
-
 
 // --- Importaciones de Layouts ---
 import UserLayout from "../layouts/UserLayout"
@@ -46,6 +49,8 @@ function AppRoutes() {
         {/* Rutas Privadas por Rol */}
         <Route path="/user" element={<RoleRoute allowedRoles={["user"]}><UserLayout /></RoleRoute>}>
           <Route path="dashboard" element={<UserDashboard />} />
+          {/* 👇 AQUÍ ESTÁ LA RUTA DE RESERVAS 👇 */}
+          <Route path="reservas" element={<MyReservationsPage />} />
           <Route path="calendario" element={<UserCalendarPage />} />
           <Route path="perfil" element={<UserProfilePage />} />
         </Route>
@@ -63,8 +68,10 @@ function AppRoutes() {
           <Route path="calendario" element={<AdminCalendarPage />} />
           <Route path="perfil" element={<AdminProfilePage />} />
           
-          {/* 👇 NUEVA RUTA PROTEGIDA DE DEPORTES 👇 */}
+          {/* Rutas protegidas de Admin */}
           <Route path="deportes" element={<SportsPage />} />
+          <Route path="rooms" element={<RoomsPage />} /> 
+          <Route path="sport-rooms" element={<SportRoomsPage />} />
         </Route>
 
         {/* Ruta Privada General */}

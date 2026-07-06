@@ -3,13 +3,11 @@ import { getUser } from "../../services/authService";
 
 export default function UserDashboard() {
   const brandPurple = "#4a3f5a";
-  // Obtenemos el usuario para saludarlo por su nombre (opcional)
   const user = getUser() || { full_name: "Usuario" };
 
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
-        {/* Contenedor principal blanco con bordes redondeados y sombra */}
         <div style={{ 
           backgroundColor: "white", 
           borderRadius: "20px", 
@@ -19,16 +17,12 @@ export default function UserDashboard() {
           boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
         }}>
           
-          {/* Cabecera del Dashboard */}
           <div className="mb-4">
             <h2 className="fw-bold">¡Hola de nuevo, {user.full_name.split(' ')[0]}! 👋</h2>
             <p className="text-muted fs-5">Aquí tienes un resumen de tu actividad y progreso en el club.</p>
           </div>
-
-          {/* Fila Superior: 3 Tarjetas de Resumen */}
           <Row className="mb-5 g-4">
             
-            {/* Tarjeta 1: Mis Reservas */}
             <Col md={4}>
               <Card className="border-0 h-100 shadow-sm" style={{ backgroundColor: "#13c5dd", color: "white", borderRadius: "15px" }}>
                 <Card.Body className="d-flex flex-column justify-content-between p-4">
@@ -43,7 +37,6 @@ export default function UserDashboard() {
               </Card>
             </Col>
 
-            {/* Tarjeta 2: Nuevas Clases */}
             <Col md={4}>
               <Card className="border-0 h-100 shadow-sm" style={{ backgroundColor: "#1c1427", color: "white", borderRadius: "15px" }}>
                 <Card.Body className="d-flex flex-column justify-content-between p-4">
@@ -58,7 +51,6 @@ export default function UserDashboard() {
               </Card>
             </Col>
 
-            {/* Tarjeta 3: Meta Semanal */}
             <Col md={4}>
               <Card className="border-0 h-100 shadow-sm" style={{ borderRadius: "15px", border: "1px solid #f0f0f0" }}>
                 <Card.Body className="p-4 d-flex flex-column justify-content-center">
@@ -73,10 +65,8 @@ export default function UserDashboard() {
             </Col>
           </Row>
 
-          {/* Fila Inferior: Agenda y Membresía */}
           <Row className="g-4">
             
-            {/* Columna Izquierda: Mi Agenda */}
             <Col md={7}>
               <h5 className="fw-bold mb-3">Mi Agenda para Hoy</h5>
               <ListGroup variant="flush">
@@ -101,7 +91,6 @@ export default function UserDashboard() {
               </ListGroup>
             </Col>
 
-            {/* Columna Derecha: Mi Membresía */}
             <Col md={5}>
               <Card className="border-0 shadow-sm" style={{ borderRadius: "15px", backgroundColor: "#f8f9fa" }}>
                 <Card.Body className="p-4">

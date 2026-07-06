@@ -9,14 +9,13 @@ function UserLayout() {
 
   return (
     <>
-      {/* El Navbar queda igual */}
       <Navbar bg="primary" variant="dark" expand="lg" className="shadow-sm">
         <Container>
           <Navbar.Brand><img src={logo} alt="Logo" height="40" /></Navbar.Brand>
           
           <Nav className="me-auto">
             <Link className="nav-link" to="/user/dashboard">Dashboard</Link>
-            {/* Nuevas pestañas añadidas aquí */}
+            <Link className="nav-link" to="/user/reservas">Mis Reservas</Link>
             <Link className="nav-link" to="/user/calendario">Calendario</Link>
             <Link className="nav-link" to="/user/perfil">Mi Perfil</Link>
           </Nav>
@@ -30,7 +29,6 @@ function UserLayout() {
         </Container>
       </Navbar>
       
-      {/* QUITAMOS el Container y el mt-4. Solo dejamos el Outlet */}
       <Outlet />
     </>
   )

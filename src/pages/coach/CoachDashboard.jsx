@@ -3,13 +3,11 @@ import { getUser } from "../../services/authService";
 
 export default function CoachDashboard() {
   const brandPurple = "#4a3f5a";
-  // Obtenemos el coach para saludarlo por su nombre
   const user = getUser() || { full_name: "Coach" };
 
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
-        {/* Contenedor principal blanco con bordes redondeados y sombra */}
         <div style={{ 
           backgroundColor: "white", 
           borderRadius: "20px", 
@@ -19,7 +17,6 @@ export default function CoachDashboard() {
           boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
         }}>
           
-          {/* Cabecera del Dashboard */}
           <div className="mb-4">
             <h2 className="fw-bold">¡Hola de nuevo, {user.full_name.split(' ')[0]}! 📋</h2>
             <p className="text-muted fs-5">Aquí tienes el resumen de tus clases, alumnos y métricas semanales.</p>
@@ -43,7 +40,6 @@ export default function CoachDashboard() {
               </Card>
             </Col>
 
-            {/* Tarjeta 2: Alumnos Asignados (Oscura) */}
             <Col md={4}>
               <Card className="border-0 h-100 shadow-sm" style={{ backgroundColor: "#1c1427", color: "white", borderRadius: "15px" }}>
                 <Card.Body className="d-flex flex-column justify-content-between p-4">
@@ -58,7 +54,6 @@ export default function CoachDashboard() {
               </Card>
             </Col>
 
-            {/* Tarjeta 3: Rendimiento Semanal */}
             <Col md={4}>
               <Card className="border-0 h-100 shadow-sm" style={{ borderRadius: "15px", border: "1px solid #f0f0f0" }}>
                 <Card.Body className="p-4 d-flex flex-column justify-content-center">
@@ -73,10 +68,8 @@ export default function CoachDashboard() {
             </Col>
           </Row>
 
-          {/* Fila Inferior: Agenda y Feedback */}
           <Row className="g-4">
             
-            {/* Columna Izquierda: Agenda del Coach */}
             <Col md={7}>
               <h5 className="fw-bold mb-3">Mi Agenda de Clases</h5>
               <ListGroup variant="flush">
@@ -101,7 +94,6 @@ export default function CoachDashboard() {
               </ListGroup>
             </Col>
 
-            {/* Columna Derecha: Feedback Reciente (Reemplaza a la Membresía) */}
             <Col md={5}>
               <Card className="border-0 shadow-sm" style={{ borderRadius: "15px", backgroundColor: "#f8f9fa" }}>
                 <Card.Body className="p-4">

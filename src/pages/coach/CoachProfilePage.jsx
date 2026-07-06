@@ -7,17 +7,14 @@ import { updateUser } from "../../services/userService";
 export default function CoachProfilePage() {
   const brandPurple = "#4a3f5a";
 
-  // 1. Obtenemos el usuario logueado actualmente
   const currentUser = getUser() || {};
 
-  // 2. Estado para manejar el formulario (cargamos sus datos actuales)
   const [formData, setFormData] = useState({
     full_name: currentUser.full_name || "",
     email: currentUser.email || "",
-    password: "", // La dejamos en blanco por seguridad
+    password: "", 
   });
 
-  // 3. Función para actualizar el estado cuando el usuario escribe
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,7 +22,6 @@ export default function CoachProfilePage() {
     });
   };
 
-  // 4. Función para enviar la petición PUT al backend
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -35,29 +31,22 @@ export default function CoachProfilePage() {
         email: formData.email,
       };
       
-      // Solo enviamos la contraseña si el usuario escribió una nueva
       if (formData.password.trim() !== "") {
         dataToSend.password = formData.password;
       }
 
-      // Llamamos al servicio PUT para actualizar en la Base de Datos
       await updateUser(currentUser.id, dataToSend);
 
-      // --- ACTUALIZAMOS EL LOCALSTORAGE PARA EL FRONTEND ---
       const storedUserString = localStorage.getItem("user");
       
       if (storedUserString) {
         const storedUser = JSON.parse(storedUserString);
-        // Modificamos solo el nombre y correo con lo que el usuario escribió
         storedUser.full_name = formData.full_name;
         storedUser.email = formData.email;
-        // Volvemos a guardar la información actualizada en el navegador
         localStorage.setItem("user", JSON.stringify(storedUser));
       }
-      // -------------------------------------------------------
 
       Swal.fire("Éxito", "Perfil de coach actualizado correctamente", "success").then(() => {
-        // Recargamos la página para que el Navbar actualice el nombre
         window.location.reload(); 
       });
 

@@ -9,7 +9,6 @@ export default function AdminDashboard() {
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
-        {/* Contenedor principal blanco */}
         <div style={{ 
           backgroundColor: "white", 
           borderRadius: "20px", 
@@ -19,13 +18,11 @@ export default function AdminDashboard() {
           boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
         }}>
           
-          {/* Header del Dashboard */}
           <div className="mb-4 pb-2 border-bottom">
             <h2 className="fw-bold text-danger mb-1">Panel de Control Global</h2>
             <p className="text-muted mb-0">Resumen operativo y administrativo del club. (Admin: {user.full_name.split(' ')[0]})</p>
           </div>
 
-          {/* Fila 1: KPIs (Tarjetas de métricas) */}
           <Row className="mb-5 g-4">
             <Col md={3}>
               <Card className="border-0 shadow-sm h-100" style={{ borderLeft: "5px solid #0d6efd", borderRadius: "10px" }}>
@@ -64,8 +61,6 @@ export default function AdminDashboard() {
               </Card>
             </Col>
           </Row>
-
-          {/* Fila 2: Módulos Administrativos */}
           <h5 className="fw-bold mb-3">Módulos Administrativos</h5>
           <Row className="g-4 mb-5">
             <Col md={4}>
@@ -75,7 +70,6 @@ export default function AdminDashboard() {
                   <div>
                     <h6 className="fw-bold mb-1">Gestión de Usuarios</h6>
                     <p className="text-muted small mb-2" style={{ lineHeight: "1.2" }}>Roles, accesos y bloqueos.</p>
-                    {/* Enlazamos al CRUD que ya tienes funcionando */}
                     <Link to="/admin/usuarios" className="text-danger fw-bold text-decoration-none small">Administrar →</Link>
                   </div>
                 </Card.Body>
@@ -142,11 +136,8 @@ export default function AdminDashboard() {
               </Card>
             </Col>
           </Row>
-
-          {/* Fila 3: Tablas de Información Inferior */}
           <Row className="g-4">
             
-            {/* Columna Izquierda: Atención Requerida */}
             <Col md={7}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h5 className="fw-bold mb-0">Atención Requerida</h5>
@@ -185,8 +176,6 @@ export default function AdminDashboard() {
                 </Table>
               </Card>
             </Col>
-
-            {/* Columna Derecha: Registro del Sistema */}
             <Col md={5}>
               <h5 className="fw-bold mb-3">Registro del Sistema</h5>
               <Card className="border-0 shadow-sm" style={{ borderRadius: "12px" }}>
@@ -224,7 +213,6 @@ export default function AdminDashboard() {
                 </ListGroup>
               </Card>
             </Col>
-
           </Row>
         </div>
       </Container>
