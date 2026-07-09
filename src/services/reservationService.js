@@ -1,4 +1,4 @@
-const API_URL = "/api/reservations"; // <-- Ruta relativa para AWS/Nginx
+const API_URL = "/api/reservations"; 
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");

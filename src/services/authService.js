@@ -1,4 +1,4 @@
-const API_URL = "/api/auth"; // <-- Ruta relativa para AWS/Nginx
+const API_URL = "/api/auth"; 
 
 export async function loginUser(credentials) {
   const response = await fetch(`${API_URL}/login`, {
