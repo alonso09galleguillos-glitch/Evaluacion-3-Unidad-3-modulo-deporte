@@ -1,4 +1,4 @@
-const API_URL = "/api/reservations"; 
+const API_URL = "/api/reservations"; // <-- Ruta relativa para AWS/Nginx
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -39,9 +39,10 @@ export const createReservation = async (reservationData) => {
   return data;
 };
 
+// 👇 AQUÍ ESTÁ LA CORRECCIÓN: Volvimos a poner el método PATCH y la ruta /cancel 👇
 export const cancelReservation = async (id) => {
-  const response = await fetch(`${API_URL}/${id}`, {
-    method: "DELETE",
+  const response = await fetch(`${API_URL}/${id}/cancel`, {
+    method: "PATCH",
     headers: getAuthHeaders(),
   });
   const data = await response.json();
