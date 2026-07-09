@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/sports";
+const API_URL = "/api/sports"; // <-- Ruta relativa para AWS/Nginx
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -10,10 +10,9 @@ const getAuthHeaders = () => {
 
 export const getSports = async () => {
   const response = await fetch(API_URL, { headers: getAuthHeaders() });
-  const data = await response.json(); // Leemos la respuesta primero
+  const data = await response.json(); 
   
   if (!response.ok) {
-    // Lanzamos el mensaje real del backend, o un genérico si no hay mensaje
     throw new Error(data.message || "Error al obtener los deportes");
   }
   return data;

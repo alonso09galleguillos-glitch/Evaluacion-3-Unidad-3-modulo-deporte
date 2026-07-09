@@ -1,6 +1,7 @@
 import { Modal, Button, Form, Row, Col, Spinner } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { getSportRooms } from "../../services/sportRoomService";
+import Swal from "sweetalert2";
 
 export default function ReservationFormModal({ show, handleClose, handleSave }) {
   const [sportRooms, setSportRooms] = useState([]);
@@ -17,6 +18,8 @@ export default function ReservationFormModal({ show, handleClose, handleSave }) 
       const fetchClasses = async () => {
         try {
           setLoading(true);
+          // OJO: Si más adelante te da error de Base de Datos, 
+          // tendrás que cambiar 'getSportRooms' por la función que traiga los 'Horarios' (classSchedules)
           const res = await getSportRooms();
           const allRooms = Array.isArray(res) ? res : (res.data || []);
           const activeRooms = allRooms.filter(room => room.status === true);
@@ -39,18 +42,24 @@ export default function ReservationFormModal({ show, handleClose, handleSave }) 
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!formData.sport_room_id || !formData.reservation_date || !formData.reservation_time) {
-      alert("Por favor, selecciona una clase, fecha y hora.");
+
+    if (!formData.sport_room_id) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos incompletos',
+        text: 'Por favor, selecciona una clase.',
+        confirmButtonColor: '#198754'
+      });
       return;
     }
 
+    // 👇 LA MAGIA ESTÁ AQUÍ 👇
+    // El backend SOLO pide el class_schedule_id y opcionalmente una observation
     const dataToSend = {
-      sport_room_id: parseInt(formData.sport_room_id, 10),
-      date: formData.reservation_date,
-      time: formData.reservation_time,
-      status: true
+      class_schedule_id: parseInt(formData.sport_room_id, 10)
     };
 
+    console.log("Enviando al backend:", dataToSend);
     handleSave(dataToSend);
   };
 
@@ -67,39 +76,35 @@ export default function ReservationFormModal({ show, handleClose, handleSave }) 
             <Row>
               <Col md={12}>
                 <Form.Group className="mb-4">
-                  <Form.Label className="fw-bold">1. Selecciona la Clase (Deporte - Sala - Coach)</Form.Label>
+                  <Form.Label className="fw-bold">1. Selecciona la Clase Disponible</Form.Label>
                   <Form.Select name="sport_room_id" value={formData.sport_room_id} onChange={handleChange} required>
-                    <option value="">-- Elige una clase disponible --</option>
+                    <option value="">-- Elige una clase --</option>
                     {sportRooms.map((sr) => {
                       const sportName = sr.sport?.name || `Deporte #${sr.sport_id}`;
                       const roomName = sr.room?.name || `Sala #${sr.room_id}`;
-                      const coachName = sr.coach?.full_name || `Coach #${sr.coach_id}`;
-                      const capacity = sr.room?.capacity ? `(Capacidad: ${sr.room.capacity} pers.)` : "";
-
                       return (
                         <option key={sr.id} value={sr.id}>
-                          {sportName} | {roomName} {capacity} | Coach: {coachName}
+                          {sportName} | {roomName}
                         </option>
                       );
                     })}
                   </Form.Select>
-                  {sportRooms.length === 0 && (
-                    <Form.Text className="text-danger">No hay clases activas disponibles en este momento.</Form.Text>
-                  )}
+                </Form.Group>
+              </Col>
+
+              {/* Dejé estos campos visuales por si quieres que el usuario los use como guía, 
+                  pero el backend ya no los necesita para guardar la reserva */}
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="fw-bold">2. Fecha (Opcional)</Form.Label>
+                  <Form.Control type="date" name="reservation_date" value={formData.reservation_date} onChange={handleChange} min={new Date().toISOString().split("T")[0]} />
                 </Form.Group>
               </Col>
 
               <Col md={6}>
                 <Form.Group className="mb-3">
-                  <Form.Label className="fw-bold">2. Fecha de la reserva</Form.Label>
-                  <Form.Control type="date" name="reservation_date" value={formData.reservation_date} onChange={handleChange} required min={new Date().toISOString().split("T")[0]} />
-                </Form.Group>
-              </Col>
-
-              <Col md={6}>
-                <Form.Group className="mb-3">
-                  <Form.Label className="fw-bold">3. Hora</Form.Label>
-                  <Form.Control type="time" name="reservation_time" value={formData.reservation_time} onChange={handleChange} required />
+                  <Form.Label className="fw-bold">3. Hora (Opcional)</Form.Label>
+                  <Form.Control type="time" name="reservation_time" value={formData.reservation_time} onChange={handleChange} />
                 </Form.Group>
               </Col>
             </Row>

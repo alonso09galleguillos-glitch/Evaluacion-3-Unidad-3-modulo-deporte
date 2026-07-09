@@ -1,66 +1,60 @@
-const API_URL = "http://localhost:3000/api/auth"
+const API_URL = "/api/auth"; // <-- Ruta relativa para AWS/Nginx
 
-// Login contra el backend
 export async function loginUser(credentials) {
-const response = await fetch(`${API_URL}/login`, {
+  const response = await fetch(`${API_URL}/login`, {
     method: "POST",
     headers: {
-    "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
-})
+  });
 
-const data = await response.json()
+  const data = await response.json();
 
-if (!response.ok) {
-    throw new Error(data.message || "Error al iniciar sesión")
+  if (!response.ok) {
+    throw new Error(data.message || "Error al iniciar sesión");
+  }
+
+  return data;
 }
 
-return data
-}
-
-// Guardar sesión en el navegador
 export function saveSession(token, user) {
-localStorage.setItem("token", token)
-localStorage.setItem("user", JSON.stringify(user))
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(user));
 }
 
-// Obtener token
 export function getToken() {
-return localStorage.getItem("token")
+  return localStorage.getItem("token");
 }
 
-// Obtener usuario
 export function getUser() {
-const user = localStorage.getItem("user")
-return user ? JSON.parse(user) : null
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
 }
 
-// Verificar si existe sesión
 export function isAuthenticated() {
-return Boolean(getToken())
+  return Boolean(getToken());
 }
 
-// Cerrar sesión
 export function logout() {
-localStorage.removeItem("token")
-localStorage.removeItem("user")
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
 }
 
 export async function registerUser(userData) {
-const response = await fetch("http://localhost:3000/api/auth/register", {
+  const response = await fetch(`${API_URL}/register`, {
     method: "POST",
     headers: {
-    "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(userData),
-})
+  });
 
-const data = await response.json()
+  const data = await response.json();
 
-if (!response.ok) {
-    throw new Error(data.message || "Error al registrar usuario")
-}
+  if (!response.ok) {
+    throw new Error(data.message || "Error al registrar usuario");
+  }
 
-return data
+  return data;
 }

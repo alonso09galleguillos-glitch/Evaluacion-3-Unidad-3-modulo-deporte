@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/sport-rooms";
+const API_URL = "/api/sport-rooms"; 
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -8,10 +8,8 @@ const getAuthHeaders = () => {
   };
 };
 
-// Reutilizamos nuestra función estrella para extraer los detalles de los errores
 const extractError = (data, defaultMessage) => {
   let errorMessage = data.message || defaultMessage;
-
   const detailArray = data.errors || data.details;
   if (detailArray && Array.isArray(detailArray)) {
     errorMessage = `${errorMessage}:\n\n• ${detailArray.join("\n• ")}`;
@@ -20,11 +18,8 @@ const extractError = (data, defaultMessage) => {
   } else if (typeof data.error === "string") {
     errorMessage = `${errorMessage} - ${data.error}`;
   }
-
   return errorMessage;
 };
-
-// --- Operaciones CRUD ---
 
 export const getSportRooms = async () => {
   const response = await fetch(API_URL, { headers: getAuthHeaders() });

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/reservations"; // Ajustaremos este nombre si tu BD usa otro
+const API_URL = "/api/reservations"; // <-- Ruta relativa para AWS/Nginx
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -21,7 +21,6 @@ const extractError = (data, defaultMessage) => {
   return errorMessage;
 };
 
-// Obtiene solo las reservas del usuario que inició sesión
 export const getMyReservations = async () => {
   const response = await fetch(`${API_URL}/my-reservations`, { headers: getAuthHeaders() });
   const data = await response.json();
@@ -29,7 +28,6 @@ export const getMyReservations = async () => {
   return data;
 };
 
-// Crea una nueva reserva (lo usaremos en el próximo paso)
 export const createReservation = async (reservationData) => {
   const response = await fetch(API_URL, {
     method: "POST",
@@ -41,7 +39,6 @@ export const createReservation = async (reservationData) => {
   return data;
 };
 
-// Cancela una reserva
 export const cancelReservation = async (id) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",

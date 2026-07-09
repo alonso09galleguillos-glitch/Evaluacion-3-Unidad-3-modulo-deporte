@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/rooms";
+const API_URL = "/api/rooms"; // <-- Ruta relativa para AWS/Nginx
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
@@ -8,25 +8,16 @@ const getAuthHeaders = () => {
   };
 };
 
-// 👇 NUEVA FUNCIÓN EXTRACTORA DE ERRORES 👇
-// Esta función lee la respuesta de tu backend y busca dónde están escondidos los detalles
 const extractError = (data, defaultMessage) => {
   let errorMessage = data.message || defaultMessage;
-
-  // 1. Si el backend envía los errores en un arreglo llamado "errors" o "details"
   const detailArray = data.errors || data.details;
   if (detailArray && Array.isArray(detailArray)) {
     errorMessage = `${errorMessage}:\n\n• ${detailArray.join("\n• ")}`;
-  } 
-  // 2. Si el backend (ej: NestJS) envía el propio "message" como un arreglo
-  else if (Array.isArray(data.message)) {
+  } else if (Array.isArray(data.message)) {
     errorMessage = `Por favor corrige lo siguiente:\n\n• ${data.message.join("\n• ")}`;
-  }
-  // 3. Si envía un solo error en un campo "error"
-  else if (typeof data.error === "string") {
+  } else if (typeof data.error === "string") {
     errorMessage = `${errorMessage} - ${data.error}`;
   }
-
   return errorMessage;
 };
 
