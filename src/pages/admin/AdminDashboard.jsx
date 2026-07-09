@@ -6,21 +6,27 @@ export default function AdminDashboard() {
   const brandPurple = "#4a3f5a";
   const user = getUser() || { full_name: "Admin" };
 
+  // SOLUCIÓN: Unificamos el texto en una sola variable para evitar
+  // la fragmentación de Nodos en el DOM de React.
+  const adminName = user?.full_name?.split(' ')[0] || "Admin";
+  const subtitleText = `Resumen operativo y administrativo del club. (Admin: ${adminName})`;
+
   return (
     <div style={{ backgroundColor: brandPurple, minHeight: "calc(100vh - 56px)", padding: "40px 20px" }}>
       <Container fluid>
-        <div style={{ 
-          backgroundColor: "white", 
-          borderRadius: "20px", 
+        <div style={{
+          backgroundColor: "white",
+          borderRadius: "20px",
           padding: "2.5rem",
           maxWidth: "1200px",
           margin: "0 auto",
           boxShadow: "0 10px 25px rgba(0,0,0,0.3)"
         }}>
-          
+
           <div className="mb-4 pb-2 border-bottom">
             <h2 className="fw-bold text-danger mb-1">Panel de Control Global</h2>
-            <p className="text-muted mb-0">Resumen operativo y administrativo del club. (Admin: {user.full_name.split(' ')[0]})</p>
+            {/* Usamos la variable unificada */}
+            <p className="text-muted mb-0">{subtitleText}</p>
           </div>
 
           <Row className="mb-5 g-4">
@@ -61,6 +67,7 @@ export default function AdminDashboard() {
               </Card>
             </Col>
           </Row>
+
           <h5 className="fw-bold mb-3">Módulos Administrativos</h5>
           <Row className="g-4 mb-5">
             <Col md={4}>
@@ -136,8 +143,8 @@ export default function AdminDashboard() {
               </Card>
             </Col>
           </Row>
+
           <Row className="g-4">
-            
             <Col md={7}>
               <div className="d-flex justify-content-between align-items-center mb-3">
                 <h5 className="fw-bold mb-0">Atención Requerida</h5>
@@ -176,6 +183,7 @@ export default function AdminDashboard() {
                 </Table>
               </Card>
             </Col>
+
             <Col md={5}>
               <h5 className="fw-bold mb-3">Registro del Sistema</h5>
               <Card className="border-0 shadow-sm" style={{ borderRadius: "12px" }}>
@@ -214,6 +222,7 @@ export default function AdminDashboard() {
               </Card>
             </Col>
           </Row>
+
         </div>
       </Container>
     </div>
